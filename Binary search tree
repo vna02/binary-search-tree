@@ -1,0 +1,98 @@
+#include<iostream>
+using namespace std;
+
+//Forming class node 
+class node{
+	public:
+	int data;
+	node * left;
+	node * right;
+	node(int value){
+		data=value;
+		left=NULL;
+		right=NULL;
+	}
+};
+
+//Forming the binary tree class
+class BiST{
+	public:
+	node * root;
+	BiST(){
+		root=NULL;
+	}
+	
+//The function for insert
+	void insert(int value){
+		inserthelper(root,value);
+	}
+	//Since we need a second function 
+	void inserthelper(node * curr,int value){
+		//base case if cur is null, insert there
+		if(curr==NULL){
+			curr=new node(value);
+			if(root==NULL){
+				root=curr;}
+		}
+		//else compare the curr data with value
+		else if(value < curr->data){
+			//if value<curr data-> move to left and call insertH
+			if(curr->left==NULL) {
+			curr->left=new node(value);}
+			inserthelper(curr->left,value);
+		}
+		else if(value > curr->data){
+			//else move right and call insertH
+			if(curr->right==NULL) {
+			curr->right=new node(value);}
+			else inserthelper(curr->right,value);
+		}	
+
+	}
+	//function to display
+	void display(){
+		display2(root);
+	}
+	//we need a second function
+	void display2(node * curr){
+		//base condition
+		if(curr==NULL) return;
+		//display left
+		display2(curr->left);
+		cout<<curr->data<<"  ";
+		//dis right
+		display2(curr->right);
+	}
+	
+//function for searching
+	node * search(int value){
+	  return searchhelper(root,value);
+	}	
+	// we need a second function
+	node* searchhelper(node*curr,int value){
+	  //Are you the value? or Are you NULL? if yes return curr
+	  if (curr==NULL||curr->data==value) return curr;
+	  //else you search both sides 
+	  //left
+	  else if(value<curr->data)return searchhelper(curr->left,value);
+	  //right
+	  else return searchhelper(curr->right,value);
+	}
+	
+
+};
+
+//main function
+int main(){
+	BiST b1;
+	b1.insert(6);
+	b1.insert(8);
+	b1.insert(3);
+	b1.insert(2);	
+	cout<<"the in-order display will show up in ascending order, ie. display : ";
+	b1.display();
+	if (b1.search(3)!=NULL){
+	cout<<endl<<b1.search(3)->data<<endl;
+	}
+return 0;	
+}
